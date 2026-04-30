@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyToken } from "../middleware/verifyToken.js";
+import { requireAuth } from "../middleware/requireAuth.js";
 
 const router = Router();
 
@@ -11,13 +11,11 @@ function userProfile(user) {
   };
 }
 
-// POST /api/auth/login — verify JWT, return profile
-router.post("/login", verifyToken, (req, res) => {
+router.post("/login", requireAuth, (req, res) => {
   res.json(userProfile(req.user));
 });
 
-// GET /api/auth/me — return current user profile
-router.get("/me", verifyToken, (req, res) => {
+router.get("/me", requireAuth, (req, res) => {
   res.json(userProfile(req.user));
 });
 

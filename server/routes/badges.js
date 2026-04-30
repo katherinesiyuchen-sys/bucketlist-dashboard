@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { supabase } from "../lib/supabase.js";
-import { verifyToken } from "../middleware/verifyToken.js";
+import { requireAuth } from "../middleware/requireAuth.js";
 
 const router = Router();
 
@@ -12,7 +12,7 @@ const BADGE_CRITERIA = [
 ];
 
 // GET /api/badges
-router.get("/", verifyToken, async (req, res) => {
+router.get("/", requireAuth, async (req, res) => {
   const { count, error } = await supabase
     .from("goals")
     .select("*", { count: "exact", head: true })

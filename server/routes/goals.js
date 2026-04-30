@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { supabase } from "../lib/supabase.js";
-import { verifyToken } from "../middleware/verifyToken.js";
+import { requireAuth } from "../middleware/requireAuth.js";
 
 const router = Router();
 
@@ -33,7 +33,7 @@ const FIELD_MAP = {
 };
 
 // GET /api/goals
-router.get("/", verifyToken, async (req, res) => {
+router.get("/", requireAuth, async (req, res) => {
   const { data, error } = await supabase
     .from("goals")
     .select("*")
@@ -45,7 +45,7 @@ router.get("/", verifyToken, async (req, res) => {
 });
 
 // POST /api/goals
-router.post("/", verifyToken, async (req, res) => {
+router.post("/", requireAuth, async (req, res) => {
   const { title, targetDate, tags, notes, steps, location, imageUrl, spotifyUrl } = req.body;
   const { data, error } = await supabase
     .from("goals")
@@ -69,7 +69,7 @@ router.post("/", verifyToken, async (req, res) => {
 });
 
 // GET /api/goals/:goalId
-router.get("/:goalId", verifyToken, async (req, res) => {
+router.get("/:goalId", requireAuth, async (req, res) => {
   const { data, error } = await supabase
     .from("goals")
     .select("*")
@@ -82,7 +82,7 @@ router.get("/:goalId", verifyToken, async (req, res) => {
 });
 
 // PATCH /api/goals/:goalId
-router.patch("/:goalId", verifyToken, async (req, res) => {
+router.patch("/:goalId", requireAuth, async (req, res) => {
   const updates = {};
   for (const [key, col] of Object.entries(FIELD_MAP)) {
     if (key in req.body) updates[col] = req.body[key];
@@ -99,7 +99,7 @@ router.patch("/:goalId", verifyToken, async (req, res) => {
 });
 
 // DELETE /api/goals/:goalId
-router.delete("/:goalId", verifyToken, async (req, res) => {
+router.delete("/:goalId", requireAuth, async (req, res) => {
   const { error } = await supabase
     .from("goals")
     .delete()
@@ -111,7 +111,7 @@ router.delete("/:goalId", verifyToken, async (req, res) => {
 });
 
 // PATCH /api/goals/:goalId/complete
-router.patch("/:goalId/complete", verifyToken, async (req, res) => {
+router.patch("/:goalId/complete", requireAuth, async (req, res) => {
   const { error } = await supabase
     .from("goals")
     .update({ completed: true, completed_at: new Date().toISOString() })
