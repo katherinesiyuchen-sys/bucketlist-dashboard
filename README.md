@@ -2,7 +2,11 @@
 
 A fullstack web application that allows users to create, track, and complete personal goals, with progress tracking and achievement badges.
 
----
+
+## Live Demo
+
+- Frontend: https://bucketlist-dashboard.vercel.app
+- Backend: https://bucketlist-dashboard.onrender.com
 
 ## Tech Stack
 
@@ -40,12 +44,9 @@ project3/
 
 ### 1. Supabase
 
-1. Go to https://supabase.com
-2. Create a new project
-3. Get your:
-   - Project URL
-   - Anon public key
-   - Service role key (for backend)
+1. Go to https://supabase.com and create a new project
+2. Run the schema from `supabase/schema.sql` in the SQL Editor
+3. Get your Project URL, Anon key (for client), and Service role key (for server)
 
 ---
 
@@ -90,6 +91,15 @@ Run the frontend:
 
 ```bash
 npm run dev
+```
+
+## Deployment
+
+- Frontend deployed on [Vercel](https://vercel.com)
+- Backend deployed on [Render](https://render.com)
+- Add a `vercel.json` in `client/` for client-side routing:
+```json
+{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
 ```
 
 ---
