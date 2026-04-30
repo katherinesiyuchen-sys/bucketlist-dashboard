@@ -486,10 +486,10 @@ body { background: var(--page-bg); color: var(--green-text); font-family: var(--
   opacity: 0.65;
 }
 
-.countdown-numbers { display: flex; align-items: baseline; gap: 0.35rem; }
+.countdown-numbers { display: flex; align-items: baseline; gap: 0.35rem; width: 100%; justify-content: space-between; }
 .countdown-num { font-family: var(--font-display); font-weight: 800; font-size: 2.25rem; line-height: 1; }
 .countdown-sep { font-family: var(--font-display); font-size: 2rem; opacity: 0.5; }
-.countdown-labels { display: flex; gap: 1.75rem; font-family: var(--font-mono); font-size: 0.68rem; opacity: 0.6; }
+.countdown-labels { display: flex; justify-content: space-between; width: 100%; font-family: var(--font-mono); font-size: 0.68rem; opacity: 0.6; }
 
 .photo-placeholder {
   background: var(--green-faint);
@@ -654,7 +654,7 @@ body { background: var(--page-bg); color: var(--green-text); font-family: var(--
 .target-date-big {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 3rem;
+  font-size: 2rem;
   line-height: 1;
   color: var(--green-text);
 }

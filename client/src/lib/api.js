@@ -3,7 +3,15 @@ import { supabase } from "./supabase.js";
 const BASE = import.meta.env.VITE_API_URL;
 
 async function authFetch(path, options = {}) {
-  const { data: { session } } = await supabase.auth.getSession();
+  let { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    const { data: refreshed } = await supabase.auth.refreshSession();
+    session = refreshed.session;
+  }
+
+  if (!session) throw new Error("No active session");
+
   return fetch(`${BASE}${path}`, {
     ...options,
     headers: {

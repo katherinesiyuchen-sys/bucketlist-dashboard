@@ -20,6 +20,22 @@ export default function Achievements() {
     });
   }, []);
 
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+    Promise.all([
+      api.get("/api/badges"),
+      api.get("/api/goals"),
+    ])
+      .then(([badges, allGoals]) => {
+        setBadgeData(badges);
+        setGoals(allGoals);
+      })
+      .catch((err) => {
+        console.error("Failed to load achievements:", err);
+        setBadgeData({ badges: [], completedCount: 0 }); // unblock the loading state
+      });
+  }, []);
+
   if (!badgeData) return <div className="loading">Loading...</div>;
 
   const displayName = user?.user_metadata?.display_name ?? user?.email?.split("@")[0] ?? "";
