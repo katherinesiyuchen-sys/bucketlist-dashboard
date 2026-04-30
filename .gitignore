@@ -42,3 +42,7 @@ Thumbs.db
 # Misc
 # =========================
 *.local
+
+.env
+client/.env
+server/.env
