@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import Navbar from "../components/Navbar";
 
-const CATEGORIES = ["Health", "Creative", "Travel", "Finance", "Fun", "Art"];
+const CATEGORIES = ["Health", "Creative", "Travel", "Finance", "Fun", "Art", "Adventure", "Food", "Learning", "Career", "Family", "Sports"];
 const EMPTY = {
   title: "", targetDate: "", tags: [], notes: "",
   steps: [], location: "", imageUrl: "", spotifyUrl: "",
@@ -181,6 +181,24 @@ export default function GoalForm() {
                       <p className="spotify-preview-sub">Your Spotify Pick</p>
                     </div>
                   </div>
+                )}
+              </div>
+
+              {/* Photo URL */}
+              <div className="form-section">
+                <label>Photo</label>
+                <input
+                  className="form-field-input"
+                  placeholder="Paste an image URL"
+                  value={form.imageUrl}
+                  onChange={(e) => setForm((f) => ({ ...f, imageUrl: e.target.value }))}
+                />
+                {form.imageUrl && (
+                  <img
+                    src={form.imageUrl}
+                    alt="Preview"
+                    style={{ width: "100%", borderRadius: "8px", objectFit: "cover", maxHeight: "140px" }}
+                  />
                 )}
               </div>
 

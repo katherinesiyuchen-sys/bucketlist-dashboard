@@ -6,7 +6,7 @@ import GoalCard from "../components/GoalCard";
 import StatsRow from "../components/StatsRow";
 import CategoryFilter from "../components/CategoryFilter";
 
-const CATEGORIES = ["Health", "Creative", "Travel", "Finance", "Fun", "Art"];
+const CATEGORIES = ["Health", "Creative", "Travel", "Finance", "Fun", "Art", "Adventure", "Food", "Learning", "Career", "Family", "Sports"];
 
 export default function Dashboard() {
   const [goals, setGoals] = useState([]);

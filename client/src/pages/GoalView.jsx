@@ -7,13 +7,15 @@ import StepsList from "../components/StepsList";
 function computeCountdown(targetDate) {
   if (!targetDate) return null;
   const now = new Date();
-  const target = new Date(targetDate);
-  const diffMs = target - now;
-  if (diffMs <= 0) return null;
-  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  const weeks = Math.floor(days / 7);
-  const months = Math.floor(days / 30);
-  return { days, weeks, months };
+  const target = new Date(targetDate + "T00:00:00");
+  if (target <= now) return null;
+
+  let years = target.getFullYear() - now.getFullYear();
+  let months = target.getMonth() - now.getMonth();
+  if (months < 0) { years -= 1; months += 12; }
+
+  const totalMonths = years * 12 + months;
+  return { years, months, totalMonths };
 }
 
 export default function GoalView() {
@@ -45,6 +47,10 @@ export default function GoalView() {
     ? new Date(goal.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" }).toUpperCase()
     : "";
   const countdown = computeCountdown(goal.targetDate);
+  const isSpotifyUrl = goal.spotifyUrl?.includes("open.spotify.com");
+  const spotifyEmbedUrl = isSpotifyUrl
+    ? goal.spotifyUrl.replace("open.spotify.com/", "open.spotify.com/embed/").split("?")[0]
+    : null;
 
   return (
     <div className="page">
@@ -88,28 +94,64 @@ export default function GoalView() {
             {countdown ? (
               <>
                 <div className="countdown-numbers">
-                  <span className="countdown-num">{countdown.days}</span>
+                  <div className="countdown-col">
+                    <span className="countdown-num">{countdown.years}</span>
+                    <span className="countdown-unit">years</span>
+                  </div>
                   <span className="countdown-sep">:</span>
-                  <span className="countdown-num">{countdown.weeks}</span>
-                  <span className="countdown-sep">:</span>
-                  <span className="countdown-num">{countdown.months}</span>
+                  <div className="countdown-col">
+                    <span className="countdown-num">{countdown.months}</span>
+                    <span className="countdown-unit">months</span>
+                  </div>
                 </div>
-                <div className="countdown-labels">
-                  <span>days</span><span>weeks</span><span>months</span>
-                </div>
+                <p className="countdown-total">
+                  {countdown.totalMonths} month{countdown.totalMonths !== 1 ? "s" : ""} total
+                </p>
               </>
             ) : (
               <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.85rem" }}>
-                {goal.targetDate ?? "No target date"}
+                {goal.targetDate ? "Past due" : "No target date"}
               </p>
             )}
           </div>
 
-          {/* Photo placeholder */}
-          <div className="photo-placeholder">
-            <span>▪</span>
-            <span>//Add a photo</span>
-          </div>
+          {/* Photo */}
+          {goal.imageUrl ? (
+            <div style={{ borderRadius: "var(--r-card)", overflow: "hidden" }}>
+              <img src={goal.imageUrl} alt={goal.title} className="goal-photo" />
+            </div>
+          ) : (
+            <div className="photo-placeholder" onClick={() => navigate(`/goals/${goalId}/edit`)}>
+              <span>▪</span>
+              <span>//Add a photo</span>
+            </div>
+          )}
+
+          {/* Spotify */}
+          {goal.spotifyUrl && (
+            <div className="spotify-sidebar-card">
+              <p className="sidebar-label" style={{ color: "#aaa" }}>// SPOTIFY</p>
+              {spotifyEmbedUrl ? (
+                <iframe
+                  src={spotifyEmbedUrl}
+                  width="100%"
+                  height="80"
+                  frameBorder="0"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  style={{ borderRadius: "8px" }}
+                  title="Spotify"
+                />
+              ) : (
+                <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
+                  <div className="spotify-preview-icon">♪</div>
+                  <div>
+                    <p className="spotify-preview-name">{goal.spotifyUrl}</p>
+                    <p className="spotify-preview-sub">Your Spotify Pick</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Steps done */}
           <div className="sidebar-card sidebar-card--light">

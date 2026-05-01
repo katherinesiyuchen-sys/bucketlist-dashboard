@@ -486,10 +486,28 @@ body { background: var(--page-bg); color: var(--green-text); font-family: var(--
   opacity: 0.65;
 }
 
-.countdown-numbers { display: flex; align-items: baseline; gap: 0.35rem; width: 100%; justify-content: space-between; }
+.countdown-numbers { display: flex; align-items: center; justify-content: center; gap: 1rem; width: 100%; }
+.countdown-col { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
 .countdown-num { font-family: var(--font-display); font-weight: 800; font-size: 2.25rem; line-height: 1; }
-.countdown-sep { font-family: var(--font-display); font-size: 2rem; opacity: 0.5; }
-.countdown-labels { display: flex; justify-content: space-between; width: 100%; font-family: var(--font-mono); font-size: 0.68rem; opacity: 0.6; }
+.countdown-unit { font-family: var(--font-mono); font-size: 0.68rem; opacity: 0.6; }
+.countdown-sep { font-family: var(--font-display); font-size: 2rem; opacity: 0.5; align-self: flex-start; margin-top: 0.15rem; }
+.countdown-total { font-family: var(--font-mono); font-size: 0.72rem; opacity: 0.45; margin-top: 0.35rem; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 0.5rem; }
+
+.goal-photo {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  max-height: 200px;
+}
+
+.spotify-sidebar-card {
+  background: #121212;
+  border-radius: var(--r-card);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 
 .photo-placeholder {
   background: var(--green-faint);

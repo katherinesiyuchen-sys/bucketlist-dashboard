@@ -15,10 +15,10 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="navbar-brand">
+      <Link to="/dashboard" className="navbar-brand" style={{ textDecoration: "none" }}>
         <div>Bucketlist</div>
         <div>Dashboard</div>
-      </div>
+      </Link>
       <div className="navbar-links">
         <Link to="/dashboard" className={active("/dashboard")}>My Dashboard</Link>
         <Link to="/goals/new" className={active("/goals/new")}>Add Goals</Link>
