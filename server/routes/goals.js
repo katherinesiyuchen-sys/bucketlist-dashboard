@@ -122,4 +122,16 @@ router.patch("/:goalId/complete", requireAuth, async (req, res) => {
   res.json({ success: true });
 });
 
+// PATCH /api/goals/:goalId/uncomplete
+router.patch("/:goalId/uncomplete", requireAuth, async (req, res) => {
+  const { error } = await supabase
+    .from("goals")
+    .update({ completed: false, completed_at: null })
+    .eq("id", req.params.goalId)
+    .eq("user_id", req.user.id);
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true });
+});
+
 export default router;

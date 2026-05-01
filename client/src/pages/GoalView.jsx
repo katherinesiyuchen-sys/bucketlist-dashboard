@@ -32,6 +32,11 @@ export default function GoalView() {
     setGoal((g) => ({ ...g, completed: true }));
   }
 
+  async function unmarkComplete() {
+    await api.patch(`/api/goals/${goalId}/uncomplete`);
+    setGoal((g) => ({ ...g, completed: false }));
+  }
+
   async function deleteGoal() {
     if (!confirm("Delete this goal?")) return;
     await api.delete(`/api/goals/${goalId}`);
@@ -173,7 +178,9 @@ export default function GoalView() {
             <button className="btn-secondary" onClick={() => navigate(`/goals/${goalId}/edit`)}>
               Edit Goal
             </button>
-            {!goal.completed && (
+            {goal.completed ? (
+              <button className="btn-secondary" onClick={unmarkComplete}>Unmark Complete</button>
+            ) : (
               <button className="btn-primary" onClick={markComplete}>Mark Complete</button>
             )}
             <button className="btn-danger" onClick={deleteGoal}>Delete Goal</button>
